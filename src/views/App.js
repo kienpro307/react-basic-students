@@ -1,17 +1,35 @@
-import logo from './logo.svg';
-import './App.scss';
-import MyComponent from './Example/MyComponent';
+import "./App.scss";
+import Home from "./Function/Home";
+import Add from "./Function/Add";
+import Delete from "./Function/Delete";
+import Update from "./Function/Update";
+import ShowAll from "./Function/ShowAll";
+import Search from "./Function/Search";
+import Nav from "./Nav/Nav";
+
+import {
+  BrowserRouter,
+  Route,
+  Routes
+} from "react-router-dom";
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Kien learn React.js
-        </p>
-        <MyComponent />
-      </header>
-    </div>
+    <BrowserRouter>
+      <div className="App">
+        <Nav />
+        <header className="App-header">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/show-all" element={<ShowAll />} />
+            <Route path="/add" element={<Add />} />
+            <Route path="/delete" element={<Delete />} />
+            <Route path="/update" element={<Update />} />
+            <Route path="/search" element={<Search />} />
+          </Routes>
+        </header>
+      </div>
+    </BrowserRouter>
   );
 }
 
