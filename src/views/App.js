@@ -24,7 +24,7 @@ function App() {
             <Route path="/add" element={<Add />} />
             <Route path="/delete" element={<Delete />} />
             <Route path="/update" element={<Update />} />
-            <Route path="/search/:id" element={<Search />} />
+            <Route path="/search/" element={<Search />} />
           </Routes>
         </header>
       </div>
