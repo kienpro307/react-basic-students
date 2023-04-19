@@ -6,7 +6,6 @@ import Update from "./Function/Update";
 import ShowAll from "./Function/ShowAll";
 import Search from "./Function/Search";
 import Nav from "./Nav/Nav";
-
 import {
   BrowserRouter,
   Route,
@@ -25,7 +24,7 @@ function App() {
             <Route path="/add" element={<Add />} />
             <Route path="/delete" element={<Delete />} />
             <Route path="/update" element={<Update />} />
-            <Route path="/search" element={<Search />} />
+            <Route path="/search/:id" element={<Search />} />
           </Routes>
         </header>
       </div>

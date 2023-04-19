@@ -6,7 +6,7 @@ class Nav extends React.Component {
   render() {
     return (
       <div>
-        <div class="topnav">
+        <div className="topnav">
           <NavLink to="/">Home</NavLink>
           <NavLink to="/show-all">Hiện tất cả học sinh</NavLink>
           <NavLink to="/search">Tra cứu học sinh</NavLink>
