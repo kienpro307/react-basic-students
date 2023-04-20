@@ -2,7 +2,7 @@ import React from "react";
 
 class Update extends React.Component {
   render() {
-    return <>Add</>;
+    return <>Update</>;
   }
 }
 
