@@ -18,7 +18,10 @@ class AddComponentName extends React.Component {
     return (
       <div>
         <div className="search-by-name">
-          <label>Name:</label>
+          <div>
+            <label>Name:</label>
+          </div>
+
           <input
             value={this.state.searchName}
             type="text"
@@ -49,7 +52,9 @@ class AddComponentID extends React.Component {
   render() {
     return (
       <div className="search-by-id">
-        <label>Id:</label>
+        <div>
+          <label>Id</label>
+        </div>
         <input
           type="text"
           id="fname"
