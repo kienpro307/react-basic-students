@@ -11,8 +11,6 @@ class Nav extends React.Component {
           <NavLink to="/show-all">Hiện tất cả học sinh</NavLink>
           <NavLink to="/search">Tra cứu học sinh</NavLink>
           <NavLink to="/add">Thêm học sinh</NavLink>
-          <NavLink to="/update">Cập nhật học sinh</NavLink>
-          <NavLink to="/delete">Xóa học sinh</NavLink>
         </div>
       </div>
     );

@@ -8,8 +8,9 @@ class Add extends React.Component {
 
   addNewStudent = (student) => {
     this.setState({
-      arrStudents: [...this.state.arrStudents, student]
+      arrStudents: [...this.state.arrStudents, student],
     });
+    console.log(this.state.arrStudents);
   };
 
   render() {
