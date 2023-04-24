@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import "./ShowAll.scss";
+import ShowStudents from "../Component/ShowStudents";
 
 class ShowAll extends React.Component {
   state = {
@@ -15,14 +16,26 @@ class ShowAll extends React.Component {
     });
   }
 
+  deleteAStudent = (student) => {
+    let currentStudents = this.state.listStudents;
+    currentStudents = currentStudents.filter((item) => item.id !== student.id);
+    this.setState({
+      listStudents: currentStudents,
+    });
+  };
+
   render() {
-    let { listStudents } = this.state;
+    // let { listStudents } = this.state;
     return (
       <>
         <div className="list-student-container">
           <div className="title">Hiển thị tất cả học sinh</div>
           <div className="list-student-content">
-            {listStudents &&
+            <ShowStudents
+              listStudents={this.state.listStudents}
+              deleteAStudent={this.deleteAStudent}
+            />
+            {/* {listStudents &&
               listStudents.length > 0 &&
               listStudents.map((item, index) => {
                 return (
@@ -31,7 +44,7 @@ class ShowAll extends React.Component {
             
                   </div>
                 );
-              })}
+              })} */}
           </div>
         </div>
       </>

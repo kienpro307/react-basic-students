@@ -6,9 +6,8 @@ import { AddComponentName, AddComponentID } from "../Component/AddComponent";
 class Search extends React.Component {
   state = {
     byID: false,
-
     isSearch: false,
-    students: [],
+    listStudents: [],
     studentByID: {},
   };
 
@@ -29,7 +28,7 @@ class Search extends React.Component {
     });
 
     this.setState({
-      students: resName.data && resName.data.data ? resName.data.data : [],
+      listStudents: resName.data && resName.data.data ? resName.data.data : [],
     });
 
     console.log(">>> Check res", resID.data);
@@ -43,6 +42,15 @@ class Search extends React.Component {
     this.setState({ isSearch: !this.state.isSearch });
   };
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+  };
+
+  deleteAStudent = (student) => {
+    let currentStudents = this.state.listStudents;
+    currentStudents = currentStudents.filter((item) => item.id !== student.id);
+  };
+
   // async componentDidMount() {
   //   let res = await axios.get("http://localhost:8080/api/v1/Students/find/");
   //   console.log(">>> Check res", res.data);
@@ -53,7 +61,7 @@ class Search extends React.Component {
 
   render() {
     // let {  } = this.state;
-    let { byID, searchID, searchName, isSearch, students, studentByID } =
+    let { byID, searchID, searchName, isSearch, listStudents, studentByID } =
       this.state;
     return (
       <>
@@ -63,18 +71,18 @@ class Search extends React.Component {
         {byID === false ? (
           <>
             <AddComponentName />
-            <button onClick={() => this.handleClick()}>Tra cứu</button>
 
             <div>
               <button onClick={() => this.handleSearch()}>
                 Tra cứu theo Id
               </button>
             </div>
+            <button onClick={() => this.handleClick()}>Tra cứu</button>
 
             {isSearch ? (
-              students && students.length > 0 ? (
+              listStudents && listStudents.length > 0 ? (
                 <div>
-                  {students.map((item, index) => (
+                  {listStudents.map((item, index) => (
                     <div className="child" key={item.id}>
                       {index + 1} - {item.data.name} - {item.data.dateYear} -{" "}
                       {item.data.address != null
@@ -93,13 +101,14 @@ class Search extends React.Component {
         ) : (
           <>
             <AddComponentID />
-            <button onClick={() => this.handleClick()}>Tra cứu</button>
+
             <div>
               <button onClick={() => this.handleSearch()}>
                 Tra cứu theo tên
               </button>
             </div>
 
+            <button onClick={() => this.handleClick()}>Tra cứu</button>
             {isSearch ? (
               studentByID && studentByID.length > 0 ? (
                 <div>
