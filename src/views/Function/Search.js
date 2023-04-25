@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import "./ShowAll.scss";
 import { AddComponentName, AddComponentID } from "../Component/AddComponent";
+import ShowStudents from "../Component/ShowStudents";
 
 class Search extends React.Component {
   state = {
@@ -10,39 +11,52 @@ class Search extends React.Component {
     searchID: "",
     searchName: "",
     listStudents: [],
-    studentByID: {},
+    studentByID: [],
   };
-
-  async componentDidMount() {
-    let id = this.state.searchID;
-    let name = this.state.searchName;
-
-    let resID = await axios.get(
-      `https://cors-anywhere.herokuapp.com/http://localhost:8080/api/v1/Students/findId/${id}`
-    );
-
-    let resName = await axios.get(
-      `https://cors-anywhere.herokuapp.com/http://localhost:8080/api/v1/Students/findName/${name}`
-    );
-
-    this.setState({
-      studentByID: resID.data && resID.data.data ? resID.data.data : {},
-    });
-
-    this.setState({
-      listStudents: resName.data && resName.data.data ? resName.data.data : [],
-    });
-
-    console.log(">>> Check res", resID.data);
-  }
 
   handleSearch = () => {
     this.setState({ byID: !this.state.byID });
   };
 
-  handleClick = () => {
+  handleClickID = () => {
     this.setState({ isSearch: !this.state.isSearch });
-    console.log(">>> Check studentById:", this.state.studentByID);
+
+    let id = this.state.searchID;
+    axios
+      .get(`http://localhost:8080/api/v1/Students/findId/${id}`)
+      .then((response) => {
+        this.setState(
+          (prevState) => ({
+            studentByID: response.data.data || prevState.studentByID,
+          }),
+          () => {
+            console.log(">>> studentByID:", this.state.studentByID);
+          }
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  handleClickName = () => {
+    this.setState({ isSearch: !this.state.isSearch });
+    let name = this.state.searchName;
+    axios
+      .get(`http://localhost:8080/api/v1/Students/findName/${name}`)
+      .then((response) => {
+        this.setState(
+          (prevState) => ({
+            listStudents: response.data || prevState.listStudents,
+          }),
+          () => {
+            console.log(">>> listStudents:", this.state.listStudents.data);
+          }
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   handleSubmit = (event) => {
@@ -55,7 +69,7 @@ class Search extends React.Component {
 
   handleTakeID = (id) => {
     this.setState({ searchID: id });
-    console.log(">>> check id in search.js:", this.state.searchID);
+    // console.log(">>> check id in search.js:", this.state.searchID);
   };
 
   deleteAStudent = (student) => {
@@ -92,25 +106,26 @@ class Search extends React.Component {
                 Tra cứu theo Id
               </button>
             </div>
-            <button onClick={() => this.handleClick()}>Tra cứu</button>
+            <button onClick={() => this.handleClickName()}>Tra cứu</button>
 
             {isSearch ? (
-              listStudents && listStudents.length > 0 ? (
-                <div>
-                  {listStudents.map((item, index) => (
-                    <div className="child" key={item.id}>
-                      {index + 1} - {item.data.name} - {item.data.dateYear} -{" "}
-                      {item.data.address != null
-                        ? item.data.address
+              listStudents.data && listStudents.data.length > 0 ? (
+                listStudents.data.map((student, index) => (
+                  <div key={student.id}>
+                    <span>
+                      {index + 1} -{student.id} - {student.name} -{" "}
+                      {student.dateYear} -{" "}
+                      {student.address != null
+                        ? student.address
                         : "Chưa cập nhật"}
-                    </div>
-                  ))}
-                </div>
+                    </span>
+                  </div>
+                ))
               ) : (
                 <p>Không tìm thấy dữ liệu</p>
               )
             ) : (
-              <>chưa click</>
+              <>chưa click tra cứu</>
             )}
           </>
         ) : (
@@ -126,19 +141,15 @@ class Search extends React.Component {
               </button>
             </div>
 
-            <button onClick={() => this.handleClick()}>Tra cứu</button>
+            <button onClick={() => this.handleClickID()}>Tra cứu</button>
             {isSearch ? (
-              studentByID && studentByID.length > 0 ? (
-                <div>
-                  {studentByID.map((item, index) => (
-                    <div className="child" key={item.id}>
-                      {index + 1} - {item.data.name} - {item.data.dateYear} -{" "}
-                      {item.data.address != null
-                        ? item.data.address
-                        : "Chưa cập nhật"}
-                    </div>
-                  ))}
-                </div>
+              studentByID !== null ? (
+                <>
+                  {studentByID.name} - {studentByID.dateYear} -{" "}
+                  {studentByID.address != null
+                    ? studentByID.address
+                    : "Chưa cập nhật"}
+                </>
               ) : (
                 <p>Không tìm thấy dữ liệu</p>
               )

@@ -10,25 +10,30 @@ class ShowAll extends React.Component {
   };
 
   async componentDidMount() {
-    let res = await axios.get("http://localhost:8080/api/v1/Students");
+    let res = await axios.get(`http://localhost:8080/api/v1/Students`);
     this.setState({
       listStudents: res && res.data ? res.data : [],
     });
   }
 
   deleteAStudent = (student) => {
-    let currentStudents = this.state.listStudents;
-    currentStudents = currentStudents.filter((item) => item.id !== student.id);
-    this.setState({
-      listStudents: currentStudents,
-    });
-    console.log(">>> delete student has id:", student.id);
-    axios
-      .delete("http://localhost:8080/api/v1/Students/delete/${student.id}")
-      .then((res) => {
-        console.log(res);
-        console.log(res.data);
+    const confirmDelete = window.confirm("Bạn có chắc muốn xóa dữ liệu không?");
+    if (confirmDelete) {
+      let currentStudents = this.state.listStudents;
+      currentStudents = currentStudents.filter(
+        (item) => item.id !== student.id
+      );
+      this.setState({
+        listStudents: currentStudents,
       });
+      console.log(">>> delete student has id:", student.id);
+      axios
+        .delete(`http://localhost:8080/api/v1/Students/delete/${student.id}`)
+        .then((res) => {
+          console.log(res);
+          console.log(res.data);
+        });
+    }
   };
 
   editAStudent = (student) => {
@@ -43,11 +48,21 @@ class ShowAll extends React.Component {
         (item) => item.id === student.id
       );
       listStudentsCopy[objIndex] = editStudent;
+
       this.setState({
         listStudents: listStudentsCopy,
         editStudent: {},
       });
       // call api ở đây để cập nhật thông tin student
+      axios
+        .put(
+          `http://localhost:8080/api/v1/Students/update/${student.id}`,
+          student
+        )
+        .then((res) => {
+          console.log(res);
+          console.log(res.data);
+        });
       return;
     }
 
@@ -60,21 +75,18 @@ class ShowAll extends React.Component {
     let editStudentCopy = { ...this.state.editStudent };
     editStudentCopy.name = value;
     this.setState({ editStudent: editStudentCopy });
-    console.log(">>> check edit student copyname: ", this.editStudent);
   };
 
   editStudentOnChangeDateYear = (value) => {
     let editStudentCopy = { ...this.state.editStudent };
     editStudentCopy.dateYear = value;
     this.setState({ editStudent: editStudentCopy });
-    console.log(">>> check edit student date year: ", value);
   };
 
   editStudentOnChangeAddress = (value) => {
     let editStudentCopy = this.state.editStudent;
     editStudentCopy.address = value;
     this.setState({ editStudent: editStudentCopy });
-    console.log(">>> check edit student address: ", value);
   };
 
   render() {

@@ -31,7 +31,7 @@ class AddComponentID extends React.Component {
   handleOnChangeID = (event) => {
     let value = event.target.value;
     this.props.handleTakeID(value);
-    console.log(">>> check id in addComponent:", value);
+    // console.log(">>> check id in addComponent:", value);
   };
 
   render() {
