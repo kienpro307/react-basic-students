@@ -22,6 +22,13 @@ class ShowAll extends React.Component {
     this.setState({
       listStudents: currentStudents,
     });
+    console.log(">>> delete student has id:", student.id);
+    axios
+      .delete("http://localhost:8080/api/v1/Students/delete/${student.id}")
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+      });
   };
 
   editAStudent = (student) => {
@@ -38,8 +45,9 @@ class ShowAll extends React.Component {
       listStudentsCopy[objIndex] = editStudent;
       this.setState({
         listStudents: listStudentsCopy,
-        // editStudent: {},
+        editStudent: {},
       });
+      // call api ở đây để cập nhật thông tin student
       return;
     }
 

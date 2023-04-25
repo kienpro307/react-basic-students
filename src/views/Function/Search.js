@@ -7,6 +7,8 @@ class Search extends React.Component {
   state = {
     byID: false,
     isSearch: false,
+    searchID: "",
+    searchName: "",
     listStudents: [],
     studentByID: {},
   };
@@ -40,10 +42,20 @@ class Search extends React.Component {
 
   handleClick = () => {
     this.setState({ isSearch: !this.state.isSearch });
+    console.log(">>> Check studentById:", this.state.studentByID);
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
+  };
+
+  handleTakeName = (name) => {
+    this.setState({ searchName: name });
+  };
+
+  handleTakeID = (id) => {
+    this.setState({ searchID: id });
+    console.log(">>> check id in search.js:", this.state.searchID);
   };
 
   deleteAStudent = (student) => {
@@ -70,7 +82,10 @@ class Search extends React.Component {
         </div>
         {byID === false ? (
           <>
-            <AddComponentName />
+            <AddComponentName
+              searchName={searchName}
+              handleTakeName={this.handleTakeName}
+            />
 
             <div>
               <button onClick={() => this.handleSearch()}>
@@ -100,7 +115,10 @@ class Search extends React.Component {
           </>
         ) : (
           <>
-            <AddComponentID />
+            <AddComponentID
+              searchID={searchID}
+              handleTakeID={this.handleTakeID}
+            />
 
             <div>
               <button onClick={() => this.handleSearch()}>

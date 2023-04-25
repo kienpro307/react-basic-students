@@ -1,17 +1,26 @@
 import React from "react";
+import axios from "axios";
 import { AddComponentStudent } from "../Component/AddComponent";
 
 class Add extends React.Component {
-  state = {
-    arrStudents: [{ id: "", name: "", dateYear: "", address: "" }],
-  };
+  // addNewStudent = (newStudent) => {
+  //   axios
+  //     .post(`http://localhost:8080/api/v1/Students/insert`, newStudent)
+  //     .then((res) => {
+  //       console.log(">>> check newStudent", newStudent);
+  //     });
+  // };
+  async addNewStudent(newStudent) {
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newStudent),
+    };
 
-  addNewStudent = (student) => {
-    this.setState({
-      arrStudents: [...this.state.arrStudents, student],
-    });
-    console.log(this.state.arrStudents);
-  };
+    fetch("http://localhost:8080/api/v1/Students/insert", options)
+      .then((res) => res.json())
+      .then((data) => console.log(">>> check newStudent", newStudent));
+  }
 
   render() {
     return (

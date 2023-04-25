@@ -1,17 +1,9 @@
 import React from "react";
-
+import axios from "axios";
 class AddComponentName extends React.Component {
-  state = {
-    searchID: "",
-    searchName: "",
-  };
-
   handleOnChangeName = (event) => {
-    this.setState({ searchName: event.target.value });
-  };
-
-  handleOnChangeID = (event) => {
-    this.setState({ searchID: event.target.value });
+    let value = event.target.value;
+    this.props.handleTakeName(value);
   };
 
   render() {
@@ -23,7 +15,7 @@ class AddComponentName extends React.Component {
           </div>
 
           <input
-            value={this.state.searchName}
+            value={this.props.searchName}
             type="text"
             id="fname"
             name="fname"
@@ -36,17 +28,10 @@ class AddComponentName extends React.Component {
 }
 
 class AddComponentID extends React.Component {
-  state = {
-    searchID: "",
-    searchName: "",
-  };
-
-  handleOnChangeName = (event) => {
-    this.setState({ searchName: event.target.value });
-  };
-
   handleOnChangeID = (event) => {
-    this.setState({ searchID: event.target.value });
+    let value = event.target.value;
+    this.props.handleTakeID(value);
+    console.log(">>> check id in addComponent:", value);
   };
 
   render() {
@@ -56,6 +41,7 @@ class AddComponentID extends React.Component {
           <label>Id</label>
         </div>
         <input
+          value={this.props.searchID}
           type="text"
           id="fname"
           name="fname"
@@ -89,11 +75,13 @@ class AddComponentStudent extends React.Component {
   handleSubmit = (event) => {
     // console.log(">>> check student", this.state);
     event.preventDefault();
-    this.props.addNewStudent({
-      id: Math.floor(Math.random() * 100),
+    const newStudent = {
       name: this.state.name,
       dateYear: this.state.dateYear,
       address: this.state.address,
+    };
+    this.props.addNewStudent({
+      newStudent,
     });
   };
 
